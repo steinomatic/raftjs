@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Raft.js</title>
+   <script src='https://cdn.firebase.com/js/client/2.0.4/firebase.js'></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+   <link rel="stylesheet" href="css/base.css">
+   <link rel="import" href="http://www.polymer-project.org/components/paper-ripple/paper-ripple.html">
+   <link rel="import" href="http://www.polymer-project.org/components/core-icons/core-icons.html">
+   <link rel="import" href="http://www.polymer-project.org/components/font-roboto/roboto.html">
+   <link rel="stylesheet" href="css/animate.css">
+</head>
+<body>
+  <div class="wow bounceInLeft">
+    <h1 class="f">Chat Example Of Raft.js</h1>
+  </div>
+			
+  <form>   
+   <div class="center1"><form action="">
+    <div class="group">   
+     <input type='text' id="messageInput" autocomplete="off" required>
+     <span class="highlight"></span>
+     <span class="bar"></span>
+     <label>Type here</label>
+    </div></div>
+  </form>    
+  <section> 
+    <div class="button raised">
+      <div class="center" fit>SUBMIT</div>
+      <paper-ripple fit></paper-ripple>
+    </div>
+    </section>
+    <section>
+    <div class="button raised grey narrow label-red">
+      <div class="center" fit>+1</div>
+      <paper-ripple fit></paper-ripple>
+    </div>
+  </section>  
+  <p>All Messages</p>
+   <div id='messagesDiv' class="messages"></div>
+   </div>
+    <script>
+      var myDataRef = new Firebase('https://raftjs.firebaseio.com');
+      $('#messageInput').keypress(function (e) {
+        if (e.keyCode == 13) {
+          var name = 'User1';
+          var text = $('#messageInput').val();
+          myDataRef.push({name:name, text: text});
+          $('#messageInput').val('');
+        }
+      });
+      myDataRef.on('child_added', function(snapshot) {
+        var message = snapshot.val();
+        displayChatMessage(message.name, message.text);
+      });
+      function displayChatMessage(name, text) {
+        $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
+        $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+      };
+    </script>
+   
+</body>    
+</html> 
+
