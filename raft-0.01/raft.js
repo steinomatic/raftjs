@@ -8,20 +8,25 @@ var raft = (function() {
 
 	//Public vars
 
-	me.registry = [];
+	me.callable_registry = [];
+	me.callback_registry = [];
 
 	//Private functions
 
 	function generate_registry_object (name, pointer) {
+
 		return {
 			name: name,
 			pointer: pointer
 		};
+
 	}
 
 	//Public functions
 
-	me.register_callback = function (name, pointer) {
+	//Functions related to callables
+
+	me.register_callable = function (name, pointer) {
 
 		if (name.constructor !== String || pointer.constructor !== Function) {
 			return false;
@@ -29,26 +34,48 @@ var raft = (function() {
 
 		temp = generate_registry_object(name, pointer);
 
-		for (index in me.registry) {
-			if (me.registry[index].name === temp.name) {
+		for (index in me.callable_registry) {
+			if (me.callable_registry[index].name === temp.name) {
 				return false;
 			}
 		}
 
-		me.registry.push(temp);
+		me.callable_registry.push(temp);
 		return true;
 	}
 
+	me.unregister_callable = function (name) {
 
-	me.fire_callback = function (name, parameters) {
+		//Don't care if it exists just remove anyway
+
+		if (name.constructor !== String) {
+			return false;
+		}
+
+		temp = [];
+
+		for (index in me.callable_registry) {
+			if (me.callable_registry[index].name !== name) {
+				temp.push(me.callable_registry[index]);
+			}
+		}
+
+		me.callable_registry = temp;
+
+		return true;
+
+	}
+
+
+	me.fire_callable = function (name, parameters) {
 
 		if (name.constructor !== String, parameters.constructor !== Array) {
 			return false;
 		}
 
-		for (index in me.registry) {
-			if (me.registry[index].name === name) {
-				return me.registry[index].pointer(parameters);
+		for (index in me.callable_registry) {
+			if (me.callable_registry[index].name === name) {
+				return me.callable_registry[index].pointer(parameters);
 			}
 		}
 
@@ -57,15 +84,30 @@ var raft = (function() {
 	}
 
 
-	me.get_callback_list = function () {
+	me.get_callable_list = function () {
 
 		temp = [];
 
-		for (index in me.registry) {
-			temp.push(me.registry[index].name);
+		for (index in me.callable_registry) {
+			temp.push(me.callable_registry[index].name);
 		}
 
 		return temp;
+
+	}
+
+
+	//Functions related to callbacks
+
+	me.register_callback = function (name, pointer) {
+
+
+
+	}
+
+
+
+	me.on_callback_fired = function (name, params) {
 
 	}
 

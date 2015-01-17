@@ -21,9 +21,12 @@ function foo(params) {
 	return "foobar";
 }
 
-assert_true(raft.register_callback("foo", foo));
-assert_false(raft.register_callback("foo", foo));
-assert_false(raft.register_callback(27, foo));
-assert_false(raft.register_callback("nope", "test"));
-assert_equal(raft.registry.length, 1);
-assert_equal(raft.fire_callback("foo", []), "foobar");
+assert_true(raft.register_callable("foo", foo));
+assert_false(raft.register_callable("foo", foo));
+assert_false(raft.register_callable(27, foo));
+assert_false(raft.register_callable("nope", "test"));
+assert_equal(raft.callable_registry.length, 1);
+assert_equal(raft.fire_callable("foo", []), "foobar");
+
+//cleanup
+assert_true(raft.unregister_callable("foo")); 
