@@ -14,6 +14,10 @@
   <div class="wow bounceInLeft">
     <h1 class="f">Chat Example Of Raft.js</h1>
   </div>
+  
+  <p>All Messages</p>
+   <div id='messagesDiv' class="messages"></div>
+   
 			
   <form>   
    <div class="center1"><form action="">
@@ -24,21 +28,13 @@
      <label>Type here</label>
     </div></div>
   </form>    
-  <section> 
-    <div class="button raised">
-      <div class="center" fit>SUBMIT</div>
-      <paper-ripple fit></paper-ripple>
-    </div>
-    </section>
     <section>
     <div class="button raised grey narrow label-red">
       <div class="center" fit>+1</div>
       <paper-ripple fit></paper-ripple>
     </div>
   </section>  
-  <p>All Messages</p>
-   <div id='messagesDiv' class="messages"></div>
-   </div>
+  <div>
     <script>
       var myDataRef = new Firebase('https://raftjs.firebaseio.com');
       $('#messageInput').keypress(function (e) {
@@ -58,7 +54,7 @@
         $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
       };
     </script>
-   
+    </div>
 </body>    
 </html> 
 
