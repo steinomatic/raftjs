@@ -12,7 +12,7 @@ var raft = (function() {
 
 	//Private functions
 
-	function generate_registry_object(name, pointer) {
+	function generate_registry_object (name, pointer) {
 		return {
 			name: name,
 			pointer: pointer
@@ -22,11 +22,13 @@ var raft = (function() {
 	//Public functions
 
 	me.register_callback = function (name, pointer) {
+
 		if (name.constructor !== String || pointer.constructor !== Function) {
 			return false;
 		}
 
 		temp = generate_registry_object(name, pointer);
+
 		for (index in me.registry) {
 			if (me.registry[index].name === temp.name) {
 				return false;
@@ -35,6 +37,36 @@ var raft = (function() {
 
 		me.registry.push(temp);
 		return true;
+	}
+
+
+	me.fire_callback = function (name, parameters) {
+
+		if (name.constructor !== String, parameters.constructor !== Array) {
+			return false;
+		}
+
+		for (index in me.registry) {
+			if (me.registry[index].name === name) {
+				return me.registry[index].pointer(parameters);
+			}
+		}
+
+		return false;
+
+	}
+
+
+	me.get_callback_list = function () {
+
+		temp = [];
+
+		for (index in me.registry) {
+			temp.push(me.registry[index].name);
+		}
+
+		return temp;
+
 	}
 
 	
