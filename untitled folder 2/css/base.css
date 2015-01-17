@@ -7,7 +7,7 @@
 }
 input         {
   font-size:18px;
-  padding:10px 614px 10px 5px;
+  padding:10px 140px 10px 5px;
   display:block;
   width:300px;
   border:none;
@@ -81,9 +81,12 @@ body {
 form {
   margin-left:auto;
 }
-//.center1 {
-  //width:400px; margin-right:auto; margin-left:auto;
-//}
+.center1 {
+  width:400px; margin-right:auto; margin-left:auto;
+}
+.center2 {
+  width:400px; margin-right:auto; margin-left:auto;
+}
 
     body {
       background-color: #f9f9f9;
