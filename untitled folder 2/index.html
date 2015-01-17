@@ -15,18 +15,26 @@
     <h1 class="f">Chat Example Of Raft.js</h1>
   </div>
   
-  <p>All Messages</p>
-   <div id='messagesDiv' class="messages"></div>
+  
+   <div id='messagesDiv' class="messages" style="overflow:scroll; height:400px;"></div>
    
 			
   <form>   
+   <div class="center2"><form action="">
+    <div class="group">   
+     <input type='text' id="name" autocomplete="off" required>
+     <span class="highlight"></span>
+     <span class="bar"></span>
+     <label>Type name</label>
+    </div></div>
    <div class="center1"><form action="">
     <div class="group">   
      <input type='text' id="messageInput" autocomplete="off" required>
      <span class="highlight"></span>
      <span class="bar"></span>
-     <label>Type here</label>
+     <label>Type text</label>
     </div></div>
+   
   </form>    
     <section>
     <div class="button raised grey narrow label-red">
@@ -36,10 +44,11 @@
   </section>  
   <div>
     <script>
+      
       var myDataRef = new Firebase('https://raftjs.firebaseio.com');
       $('#messageInput').keypress(function (e) {
         if (e.keyCode == 13) {
-          var name = 'User1';
+          var name = $('#name').val();
           var text = $('#messageInput').val();
           myDataRef.push({name:name, text: text});
           $('#messageInput').val('');
