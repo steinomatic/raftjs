@@ -27,7 +27,7 @@ So now that you love it, how to use Raft?:
                  
 
 
-Example of using raft: 
+Example of using raft with crypto.js: 
 
                  -raft.link('FirebaseChat.onMessage.message', 'Crypto.Decrypt');
                  -raft.link('FirebaseChat.onSend', 'Crypto.Encrypt');
