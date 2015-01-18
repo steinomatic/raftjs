@@ -4,12 +4,14 @@ var raft = (function() {
 	
 	var me = {},
 	temp = null,
-	index = 0;
+	index = 0,
+	index2 = 0;
 
 	//Public vars
 
 	me.callable_registry = [];
 	me.callback_registry = [];
+	me.linkage_registry = [];
 
 	//Private functions
 
@@ -18,6 +20,15 @@ var raft = (function() {
 		return {
 			name: name,
 			pointer: pointer
+		};
+
+	}
+
+	function generate_linkage_object (callback, callable) {
+
+		return {
+			callback: callback,
+			callable: callable
 		};
 
 	}
@@ -101,14 +112,81 @@ var raft = (function() {
 
 	me.register_callback = function (name, pointer) {
 
+		if (name.constructor !== String || pointer.constructor !== Function) {
+			return false;
+		}
+
+		temp = generate_registry_object(name, pointer);
+
+		for (index in me.callback_registry) {
+			if (me.callback_registry[index].name === temp.name) {
+				return false;
+			}
+		}
+
+		me.callback_registry.push(temp);
+		return true;
+
+	}
+
+	me.unregister_callback = function (name, pointer) {
+
+		if (name.constructor !== String || pointer.constructor !== Function) {
+			return false;
+		}
+
+		temp = [];
+
+		for (index in me.callback_registry) {
+			if (me.callback_registry[index].name !== name) {
+				temp.push(me.callback_registry[index]);
+			}
+		}
+
+		me.callback_registry = temp;
+
+		return true;
 
 
 	}
 
 
 
-	me.on_callback_fired = function (name, params) {
+	me.fire_callback = function (name, params) {
 
+		if (name.constructor !== String || params.constructor !== Array) {
+			return false;
+		}
+
+		for (index in me.linkage_registry) {
+			if (me.linkage_registry[index].callback === name) {
+				params = me.fire_callable(me.linkage_registry[index].callable, params);
+			}
+		}
+
+		return params;
+	}
+
+
+	//Functions related to linkages
+
+	me.link = function (callback, callable) {
+
+		if (callback.constructor !== String || callable.constructor !== String) {
+			return false;
+		}
+
+		temp = generate_linkage_object(callback, callable);
+
+		for (index in me.linkage_registry) {
+			if (temp.callback === me.linkage_registry[callback] && temp.callable === me.linkage_registry[callable]) {
+				return false;
+			}
+		}
+
+		me.linkage_registry.push(temp);
+
+		return true;
 	}
 
 	
