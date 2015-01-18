@@ -14,3 +14,5 @@ Integration is no more than three simple steps:
 Utilizing Raft to link modules together is one single function call per linkage. Raft allows plug-n-play functionality with code like nothing else.
 
 Benefits of using Raft include higher code reusability, faster integration time, easier inter-module debugging, and overall code readability improvements.
+
+Example of using raft: 
