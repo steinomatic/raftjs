@@ -9,7 +9,7 @@ Integration is no more than three simple steps:
                   
                    -Register callable functions 
                    -Register callback functions 
-                   -Add triggers.
+                   -Add triggers
 
 Utilizing Raft to link modules together is one single function call per linkage. Raft allows plug-n-play functionality with code like nothing else.
 
