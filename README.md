@@ -20,4 +20,14 @@ Benefits of using Raft include:
                   -easier inter-module debugging
                   -And overall code readability improvements.
 
+
+So now that you love it, how to use Raft?:
+
+                 -import raft.js
+                 
+
+
 Example of using raft: 
+
+                 -raft.link('FirebaseChat.onMessage.message', 'Crypto.Decrypt');
+                 -raft.link('FirebaseChat.onSend', 'Crypto.Encrypt');
