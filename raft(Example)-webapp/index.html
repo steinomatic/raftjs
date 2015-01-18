@@ -2,8 +2,11 @@
 <html>
 <head>
    <title>Raft.js</title>
+   <script src='http://localhost/raftjs/raft-0.01/raft.js'></script>
+   <script src='http://localhost/raftjs/raft-0.01/modules/crypto.js'></script>
    <script src='https://cdn.firebase.com/js/client/2.0.4/firebase.js'></script>
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+   <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    
    <link rel="stylesheet" href="css/base.css">
    <link rel="import" href="http://www.polymer-project.org/components/paper-ripple/paper-ripple.html">
    <link rel="import" href="http://www.polymer-project.org/components/core-icons/core-icons.html">
@@ -44,18 +47,42 @@
   </section>  
   <div>
     <script>
+
+      raft.register_callback('FirebaseChat.onMessage.name', function(){});
+      raft.register_callback('FirebaseChat.onMessage.message', function(){});
+      raft.register_callable('FirebaseChat.send', send);
+      raft.register_callback('FirebaseChat.onSend', function(){});
+
+
+      raft.link('FirebaseChat.onMessage.message', 'Crypto.Decrypt');
+      raft.link('FirebaseChat.onSend', 'Crypto.Encrypt');
       
       var myDataRef = new Firebase('https://raftjs.firebaseio.com');
+
+      function send(params) {
+        var name = $('#name').val();
+        var text = $('#messageInput').val();
+        text = raft.fire_callback('FirebaseChat.onSend', [text]);
+        myDataRef.push({name:name, text: text});
+        $('#messageInput').val('');
+      }
+
       $('#messageInput').keypress(function (e) {
         if (e.keyCode == 13) {
           var name = $('#name').val();
           var text = $('#messageInput').val();
+          text = raft.fire_callback('FirebaseChat.onSend', [text]);
+          console.log(text);
           myDataRef.push({name:name, text: text});
           $('#messageInput').val('');
         }
       });
+
+      
       myDataRef.on('child_added', function(snapshot) {
         var message = snapshot.val();
+        message.text = raft.fire_callback('FirebaseChat.onMessage.message', [message.text]);
+        console.log(message.text);
         displayChatMessage(message.name, message.text);
       });
       function displayChatMessage(name, text) {
