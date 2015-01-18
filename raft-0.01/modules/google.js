@@ -8,7 +8,7 @@ var Google = (function (raft)
 	}
 
 	me.Googlify = function(s) {
-		return s.replace('UUGOOGLEWW', '<img src="https://www.google.com/images/srpr/logo11w.png" width="135" height="42" />');
+		return s.replace('UUGOOGLEWW', '<img src="https://www.google.com/images/srpr/logo11w.png" width="100" height="35" />');
 	}
 	
 	return me;
