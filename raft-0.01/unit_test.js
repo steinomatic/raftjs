@@ -18,7 +18,6 @@ function assert_false(value) {
 }
 
 function foo(params) {
-	console.log("Got foo");
 	return "foobar";
 }
 

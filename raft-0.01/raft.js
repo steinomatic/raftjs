@@ -79,10 +79,10 @@ var raft = (function() {
 
 
 	me.fire_callable = function (name, parameters) {
-
-		if (name.constructor !== String, parameters.constructor !== Array) {
-			return false;
-		}
+		// if (name.constructor !== String, parameters.constructor !== Array) {
+		// 	return false;
+		// }
+		//TODO: Figure out where parameter is getting de-array'd
 
 		for (index in me.callable_registry) {
 			if (me.callable_registry[index].name === name) {
@@ -157,12 +157,12 @@ var raft = (function() {
 		if (name.constructor !== String || params.constructor !== Array) {
 			return false;
 		}
-
 		for (index in me.linkage_registry) {
 			if (me.linkage_registry[index].callback === name) {
 				params = me.fire_callable(me.linkage_registry[index].callable, params);
 			}
 		}
+
 
 		return params;
 	}
